@@ -19,14 +19,43 @@ def tokenize(code):
                     'int', 'long', 'register', 'return',
                     'short', 'signed', 'sizeof', 'static',
                     'struct', 'switch', 'typedef', 'union',
-                    'unsigned', 'void', 'volatile', 'while'}
+                    'unsigned', 'void', 'volatile', 'while',
+                    'asm','dynamic_cast','namespace','reinterpret_cast','bool','explicit',
+                    'new','static_cast','false','catch','operator','template','friend','private','public',
+                    'class','this','inline','throw','const_cast','delete','mutable',
+                    'protected','true','try','typeid','typename','using','virtual','wchar_t'
+                    }
     # each element in the token_specification list is a named tuple that represents a possible token
     token_specification = [
         # ToDo: Check this example then complete the rest of the tokens.
         # I use a namedtuple in here. It's like a normal tuple but with named fields.
         # So i can get the values using names.
-        ('assignment_operator', r'=|(/=)|\*='),  # assignment-operator identifier
+        
+        ('assignment_operator', r'\|=|={1}|^=|&=|<<=|>>=|-=|\+=|%=|/=|\*='),  # assignment-operator identifier 
+        ('relop', r'<=|>=|==|!=|<|>'),
+        ('unary_operator', r'=|~|!|-|\+|&|\*'),
+        ('letter', r'[A-Za-z]'),
+        ('digits', r'\d{2,}'),
+        ('digit', r'\d{1}'),
+        ('String', r'\".*\"|\'.*\''),
+        
+        
+        
+        #('assignment_operator', r'=|(/=)|\*='),
+
     ]
+    '''
+
+| identifier | letter_(letter_|digit)* |
+| String | ‘…’ or “…” |
+| block_comment | /* …. */ |
+| line_comment | //… |
+| logical_operator | ‘||’
+’&&’
+’!’ |
+    '''
+    
+    
 
     # This creates a regular expression that contains all the expressions u wrote in the token_specification list.
     # it uses the property that the regular expression a|b will get either a or b .
@@ -62,8 +91,17 @@ def tokenize(code):
 
 
 def main():
+    statement = '''
+   a b c d e f g h 
+   236
+   5
+   4
+   <|>|<=|>=|=====|!=
+
+   <<=
+    '''
     # ToDo: U have to add the file handling logic in here and then pass the code to the tokenize() function.
-    for token in tokenize(add_the_code_here):
+    for token in tokenize(statement):
         print(token)
 
 
